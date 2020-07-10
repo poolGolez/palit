@@ -9,6 +9,8 @@ class PalitApplication extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Colors.indigoAccent,
+        accentColor: Colors.amberAccent,
+        fontFamily: 'Lato',
       ),
       home: new ProductOverviewScreen(),
     );

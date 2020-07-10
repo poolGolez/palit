@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:palit/widgets/product_item.dart';
 
 import '../domain/product.dart';
 
@@ -56,16 +57,7 @@ class ProductOverviewScreen extends StatelessWidget {
             childAspectRatio: 3 / 2,
           ),
           itemCount: products.length,
-          itemBuilder: (_, index) {
-            var product = products[index];
-            return Container(
-              child: Text(product.title),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-                color: Colors.red,
-              ),
-            );
-          },
+          itemBuilder: (_, index) => ProductItem(product: products[index]),
         ),
       ),
     );
