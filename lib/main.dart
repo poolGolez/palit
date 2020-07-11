@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import './providers/cart.dart';
 import './providers/products.dart';
+import './screens/cart_screen.dart';
 import './screens/product_overview_screen.dart';
 
 void main() => runApp(PalitApplication());
@@ -22,6 +23,9 @@ class PalitApplication extends StatelessWidget {
           fontFamily: 'Lato',
         ),
         home: new ProductOverviewScreen(),
+        routes: {
+          CartScreen.ROUTE_NAME: (ctx) => CartScreen(),
+        },
       ),
     );
   }
