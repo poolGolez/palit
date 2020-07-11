@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:palit/providers/cart.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/products.dart';
@@ -26,9 +27,19 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
       appBar: AppBar(
         title: Text('Palit Shop'),
         actions: <Widget>[
-          Badge(
-            child: Icon(Icons.shopping_cart),
-            value: '32',
+          Consumer<Cart>(
+            builder: (_, Cart cart, Widget child) {
+              return Badge(
+                child: child,
+                value: cart.count.toString(),
+              );
+            },
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                print("pressed!");
+              },
+            ),
           ),
           PopupMenuButton(
             onSelected: (value) {
