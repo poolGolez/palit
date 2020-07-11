@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/cart.dart';
 import '../providers/product.dart';
 
 class CartItem extends StatelessWidget {
@@ -25,7 +27,10 @@ class CartItem extends StatelessWidget {
           size: 36,
         ),
       ),
-      onDismissed: (direction) {},
+      onDismissed: (direction) {
+        final cart = Provider.of<Cart>(context, listen: false);
+        cart.removeItem(product);
+      },
       child: Card(
         child: ListTile(
           leading: CircleAvatar(
