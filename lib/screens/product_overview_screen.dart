@@ -24,6 +24,15 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         ? productProvider.favorites
         : productProvider.products;
 
+    final sideDrawerNavigation = [
+      {
+        'name': 'Shop',
+      },
+      {
+        'name': 'Orders',
+      },
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Palit Shop'),
@@ -65,6 +74,35 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
             },
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            children: <Widget>[
+              ListTile(
+                leading: Icon(
+                  Icons.shop,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(
+                  'Shop',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.credit_card,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(
+                  'Orders',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: Container(
         height: double.infinity,
