@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:palit/providers/cart.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/cart.dart';
+import '../widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
   static const ROUTE_NAME = '/cart';
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<Cart>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('My Cart'),
       ),
       body: Column(
-        children: <Widget>[
+        children: [
           Card(
             elevation: 6,
             child: Padding(
@@ -24,14 +27,12 @@ class CartScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       )),
                   Spacer(),
-                  Consumer<Cart>(
-                    builder: (BuildContext context, Cart cart, _) => Chip(
-                      label: Text(
-                        cart.totalAmount.toStringAsFixed(2),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: Theme.of(context).primaryColor,
+                  Chip(
+                    label: Text(
+                      cart.totalAmount.toStringAsFixed(2),
+                      style: TextStyle(color: Colors.white),
                     ),
+                    backgroundColor: Theme.of(context).primaryColor,
                   ),
                   FlatButton(
                       onPressed: () {},
@@ -46,7 +47,17 @@ class CartScreen extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
+          SizedBox(height: 15),
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (ctx, index) {
+                final cartItem = cart.items[index].value;
+                return CartItem(cartItem.product, cartItem.quantity);
+              },
+              itemCount: cart.count,
+            ),
+          ),
         ],
       ),
     );
