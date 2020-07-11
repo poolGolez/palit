@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../domain/product.dart';
+import './product.dart';
 
 class Products with ChangeNotifier {
   final _products = <Product>[
