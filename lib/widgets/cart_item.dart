@@ -12,25 +12,40 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        leading: CircleAvatar(
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: FittedBox(
-              child: Text(
-                product.price.toStringAsFixed(2),
+    return Dismissible(
+      key: ValueKey(product.id),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        color: Theme.of(context).errorColor,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 10),
+        child: Icon(
+          Icons.delete,
+          color: Colors.white,
+          size: 36,
+        ),
+      ),
+      onDismissed: (direction) {},
+      child: Card(
+        child: ListTile(
+          leading: CircleAvatar(
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: FittedBox(
+                child: Text(
+                  product.price.toStringAsFixed(2),
+                ),
               ),
             ),
           ),
-        ),
-        title: Text(product.title),
-        subtitle: Text("Extended: PHP ${extendedPrice.toStringAsFixed(2)}"),
-        trailing: Text(
-          "${quantity} x",
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+          title: Text(product.title),
+          subtitle: Text("Extended: PHP ${extendedPrice.toStringAsFixed(2)}"),
+          trailing: Text(
+            "${quantity} x",
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
