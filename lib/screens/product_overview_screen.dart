@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../providers/products.dart';
 import '../widgets/product_item.dart';
 
+enum FilterOptions { Favorites, ShowAll }
+
 class ProductOverviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -13,6 +15,28 @@ class ProductOverviewScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Palit Shop'),
+        actions: <Widget>[
+          PopupMenuButton(
+            onSelected: (value) {
+              print("Selected $value");
+            },
+            icon: Icon(Icons.more_vert),
+            itemBuilder: (ctx) {
+              return <PopupMenuEntry>[
+                CheckedPopupMenuItem(
+                  checked: _filterOption == FilterOptions.Favorites,
+                  child: Text('My Favorites'),
+                  value: FilterOptions.Favorites,
+                ),
+                CheckedPopupMenuItem(
+                  checked: _filterOption == FilterOptions.ShowAll,
+                  child: Text('Show all'),
+                  value: FilterOptions.ShowAll,
+                ),
+              ];
+            },
+          ),
+        ],
       ),
       body: Container(
         height: double.infinity,
