@@ -4,9 +4,9 @@ import './product.dart';
 
 class CartItem {
   final Product product;
-  int quantity = 1;
+  int quantity;
 
-  CartItem(@required this.product, {this.quantity});
+  CartItem(@required this.product, {this.quantity = 1});
 }
 
 class Cart with ChangeNotifier {
