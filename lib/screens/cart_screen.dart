@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../providers/orders.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart.dart';
@@ -36,6 +37,9 @@ class CartScreen extends StatelessWidget {
                   ),
                   FlatButton(
                       onPressed: () {
+                        final orders =
+                            Provider.of<Orders>(context, listen: false);
+                        orders.addOrder(cart);
                         cart.clear();
                       },
                       child: Text(
