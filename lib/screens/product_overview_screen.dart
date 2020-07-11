@@ -6,11 +6,20 @@ import '../widgets/product_item.dart';
 
 enum FilterOptions { Favorites, ShowAll }
 
-class ProductOverviewScreen extends StatelessWidget {
+class ProductOverviewScreen extends StatefulWidget {
+  @override
+  _ProductOverviewScreenState createState() => _ProductOverviewScreenState();
+}
+
+class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
+  FilterOptions _filterOption = FilterOptions.ShowAll;
+
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<Products>(context);
-    final products = productProvider.products;
+    final products = (_filterOption == FilterOptions.Favorites)
+        ? productProvider.favorites
+        : productProvider.products;
 
     return Scaffold(
       appBar: AppBar(
@@ -18,7 +27,9 @@ class ProductOverviewScreen extends StatelessWidget {
         actions: <Widget>[
           PopupMenuButton(
             onSelected: (value) {
-              print("Selected $value");
+              setState(() {
+                _filterOption = value;
+              });
             },
             icon: Icon(Icons.more_vert),
             itemBuilder: (ctx) {
