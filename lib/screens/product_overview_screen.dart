@@ -26,8 +26,8 @@ class ProductOverviewScreen extends StatelessWidget {
             childAspectRatio: 3 / 2,
           ),
           itemCount: products.length,
-          itemBuilder: (_, index) => ChangeNotifierProvider(
-            create: (BuildContext _) => products[index],
+          itemBuilder: (_, index) => ChangeNotifierProvider.value(
+            value: products[index],
             child: ProductItem(),
           ),
         ),
