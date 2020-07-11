@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/product_provider.dart';
+import '../providers/products.dart';
 import '../widgets/product_item.dart';
 
 class ProductOverviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final productProvider = Provider.of<ProductProvider>(context);
+    final productProvider = Provider.of<Products>(context);
     final products = productProvider.products;
 
     return Scaffold(
