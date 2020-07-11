@@ -9,8 +9,10 @@ void main() => runApp(PalitApplication());
 class PalitApplication extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext _) => Products(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Products() )
+      ],
       child: MaterialApp(
         theme: ThemeData(
           primaryColor: Colors.indigoAccent,
