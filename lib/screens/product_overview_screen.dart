@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/products.dart';
+import '../widgets/badge.dart';
 import '../widgets/product_item.dart';
 
 enum FilterOptions { Favorites, ShowAll }
@@ -25,6 +26,10 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
       appBar: AppBar(
         title: Text('Palit Shop'),
         actions: <Widget>[
+          Badge(
+            child: Icon(Icons.shopping_cart),
+            value: '32',
+          ),
           PopupMenuButton(
             onSelected: (value) {
               setState(() {
