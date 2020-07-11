@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:palit/providers/cart.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
   static const ROUTE_NAME = '/cart';
@@ -22,12 +24,14 @@ class CartScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       )),
                   Spacer(),
-                  Chip(
-                    label: Text(
-                      '0.0515',
-                      style: TextStyle(color: Colors.white),
+                  Consumer<Cart>(
+                    builder: (BuildContext context, Cart cart, _) => Chip(
+                      label: Text(
+                        cart.totalAmount.toStringAsFixed(2),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Theme.of(context).primaryColor,
                     ),
-                    backgroundColor: Theme.of(context).primaryColor,
                   ),
                   FlatButton(
                       onPressed: () {},

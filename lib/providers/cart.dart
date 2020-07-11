@@ -6,6 +6,8 @@ class CartItem {
   final Product product;
   int quantity;
 
+  double get extendedPrice => product.price * quantity;
+
   CartItem(@required this.product, {this.quantity = 1});
 }
 
@@ -14,6 +16,11 @@ class Cart with ChangeNotifier {
 
   int get count {
     return _items.length;
+  }
+
+  double get totalAmount {
+    return _items.values
+        .fold(0.0, (amount, cartItem) => amount + cartItem.extendedPrice);
   }
 
   void addItem(Product product) {
