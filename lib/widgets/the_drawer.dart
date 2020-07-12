@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../screens/orders_screen.dart';
 import '../screens/product_overview_screen.dart';
+import '../screens/user_product_screen.dart';
 
 class TheDrawer extends StatelessWidget {
   @override
@@ -37,6 +38,21 @@ class TheDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.of(context)
                     .pushReplacementNamed(OrdersScreen.ROUTE_NAME);
+              },
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(
+                Icons.mode_edit,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text(
+                'Manage Products',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              onTap: () {
+                Navigator.of(context)
+                    .pushReplacementNamed(UserProductScreen.ROUTE_NAME);
               },
             ),
           ],

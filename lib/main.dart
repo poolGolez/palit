@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:palit/screens/orders_screen.dart';
 import 'package:provider/provider.dart';
 
 import './providers/cart.dart';
 import './providers/orders.dart';
 import './providers/products.dart';
 import './screens/cart_screen.dart';
+import './screens/orders_screen.dart';
 import './screens/product_overview_screen.dart';
+import './screens/user_product_screen.dart';
 
 void main() => runApp(PalitApplication());
 
@@ -29,6 +30,7 @@ class PalitApplication extends StatelessWidget {
           ProductOverviewScreen.ROUTE_NAME: (ctx) => ProductOverviewScreen(),
           CartScreen.ROUTE_NAME: (ctx) => CartScreen(),
           OrdersScreen.ROUTE_NAME: (ctx) => OrdersScreen(),
+          UserProductScreen.ROUTE_NAME: (ctx) => UserProductScreen()
         },
       ),
     );
