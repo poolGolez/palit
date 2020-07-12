@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../providers/product.dart';
+import '../providers/products.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const ROUTE_NAME = '/manage/products/edit';
@@ -44,8 +46,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   void _saveForm() {
+    if (!_form.currentState.validate()) {
+      return;
+    }
+
     _form.currentState.save();
-    print(_mutableProduct);
+    final product = _mutableProduct.toProduct();
+    final products = Provider.of<Products>(context, listen: false);
+    products.addProduct(product);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -62,6 +71,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
             TextFormField(
               decoration: const InputDecoration(labelText: 'Title'),
               textInputAction: TextInputAction.next,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Provide title of the product';
+                }
+
+                return null;
+              },
               onFieldSubmitted: (_) =>
                   FocusScope.of(context).requestFocus(_priceFocusNode),
               onSaved: (value) => _mutableProduct.title = value,
@@ -71,6 +87,21 @@ class _EditProductScreenState extends State<EditProductScreen> {
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.number,
               focusNode: _priceFocusNode,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Provide the price of the product.';
+                }
+
+                if (double.tryParse(value) == null) {
+                  return 'Invalid price value.';
+                }
+
+                if (double.parse(value) <= 0.0) {
+                  return 'Price should be greater than zero.';
+                }
+
+                return null;
+              },
               onFieldSubmitted: (_) =>
                   FocusScope.of(context).requestFocus(_descriptionFocusNode),
               onSaved: (value) => _mutableProduct.price = double.parse(value),
@@ -79,6 +110,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
               decoration: InputDecoration(labelText: 'Description'),
               keyboardType: TextInputType.multiline,
               focusNode: _descriptionFocusNode,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Provide description of the product';
+                }
+
+                return null;
+              },
               onFieldSubmitted: (_) =>
                   FocusScope.of(context).requestFocus(_imageFocusNode),
               onSaved: (value) => _mutableProduct.description = value,
@@ -108,6 +146,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       keyboardType: TextInputType.url,
                       controller: _imageUrlController,
                       focusNode: _imageFocusNode,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Provide image URL of the product';
+                        }
+
+                        return null;
+                      },
                       onSaved: (value) => _mutableProduct.imageUrl = value,
                     ),
                   )
@@ -144,6 +189,15 @@ class MutableProduct {
     this.description,
     this.imageUrl,
   });
+
+  Product toProduct() {
+    return Product(
+        id: null,
+        title: title,
+        description: description,
+        price: price,
+        imageUrl: imageUrl);
+  }
 
   static MutableProduct from(Product product) {
     return MutableProduct(
