@@ -6,6 +6,10 @@ import 'cart.dart';
 class Orders with ChangeNotifier {
   final List<Order> _orders = [];
 
+  int get length => _orders.length;
+
+  Order getAt(index) => _orders[index];
+
   void addOrder(Cart cart) {
     final order = Order(
       DateTime.now().toString(),
@@ -14,9 +18,11 @@ class Orders with ChangeNotifier {
         map[cartItem.product] = cartItem.quantity;
         return map;
       }),
+      cart.totalAmount,
       DateTime.now(),
     );
 
     _orders.add(order);
+    notifyListeners();
   }
 }
