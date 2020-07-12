@@ -10,11 +10,13 @@ class EditProductScreen extends StatefulWidget {
 class _EditProductScreenState extends State<EditProductScreen> {
   final _priceFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
+  final _imageFocusNode = FocusNode();
 
   @override
   void dispose() {
     _priceFocusNode.dispose();
     _descriptionFocusNode.dispose();
+    _imageFocusNode.dispose();
     super.dispose();
   }
 
@@ -46,6 +48,37 @@ class _EditProductScreenState extends State<EditProductScreen> {
               decoration: InputDecoration(labelText: 'Description'),
               keyboardType: TextInputType.multiline,
               focusNode: _descriptionFocusNode,
+              onFieldSubmitted: (_) =>
+                  FocusScope.of(context).requestFocus(_imageFocusNode),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 10.0),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                    ),
+                    child: false
+                        ? Text('Enter image URL')
+                        : FittedBox(
+                        fit: BoxFit.cover,
+                          child: Image.network('https://cf.shopee.ph/file/de7f04df0ae25cb4a9b0903670e15ceb'),
+                        ),
+                    alignment: Alignment.center,
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(labelText: 'Image URL'),
+                      keyboardType: TextInputType.url,
+                      focusNode: _imageFocusNode,
+                    ),
+                  )
+                ],
+              ),
             ),
           ],
         ),
