@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:palit/widgets/user_product_item.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/products.dart';
@@ -17,7 +18,7 @@ class UserProductScreen extends StatelessWidget {
       ),
       drawer: TheDrawer(),
       body: ListView.builder(
-        itemBuilder: (ctx, i) => Text('asdfa'),
+        itemBuilder: (ctx, i) => UserProductItem(products[i]),
         itemCount: products.length,
       ),
     );
