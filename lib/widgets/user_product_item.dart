@@ -27,6 +27,7 @@ class UserProductItem extends StatelessWidget {
           Navigator.of(context).pushNamed(EditProductScreen.ROUTE_NAME);
           return Future.value(false);
         }
+        return Future.value(true);
       },
       onDismissed: (_) {
         //.. do delete here!

@@ -12,11 +12,29 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _descriptionFocusNode = FocusNode();
   final _imageFocusNode = FocusNode();
 
+  final _imageUrlController = TextEditingController(
+      text: 'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg');
+
+  @override
+  void initState() {
+    _imageFocusNode.addListener(_updateImage);
+    super.initState();
+  }
+
+  void _updateImage() {
+    if (!_imageFocusNode.hasFocus) {
+      setState(() {});
+    }
+  }
+
   @override
   void dispose() {
     _priceFocusNode.dispose();
     _descriptionFocusNode.dispose();
+    _imageFocusNode.removeListener(_updateImage);
     _imageFocusNode.dispose();
+
+    _imageUrlController.dispose();
     super.dispose();
   }
 
@@ -61,12 +79,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black),
                     ),
-                    child: false
-                        ? Text('Enter image URL')
-                        : FittedBox(
-                        fit: BoxFit.cover,
-                          child: Image.network('https://cf.shopee.ph/file/de7f04df0ae25cb4a9b0903670e15ceb'),
-                        ),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: _imageUrlController.text.isEmpty
+                          ? Text('Enter image URL')
+                          : Image.network(_imageUrlController.text),
+                    ),
                     alignment: Alignment.center,
                   ),
                   SizedBox(width: 10),
@@ -74,6 +92,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     child: TextFormField(
                       decoration: InputDecoration(labelText: 'Image URL'),
                       keyboardType: TextInputType.url,
+                      controller: _imageUrlController,
                       focusNode: _imageFocusNode,
                     ),
                   )
