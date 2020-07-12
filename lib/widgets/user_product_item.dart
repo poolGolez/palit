@@ -22,12 +22,15 @@ class UserProductItem extends StatelessWidget {
       secondaryBackground: Container(color: Colors.red),
       confirmDismiss: (direction) {
         if (direction == DismissDirection.endToStart) {
-          print('delete');
           return Future.value(true);
         } else if (direction == DismissDirection.startToEnd) {
           Navigator.of(context).pushNamed(EditProductScreen.ROUTE_NAME);
           return Future.value(false);
         }
+      },
+      onDismissed: (_) {
+        //.. do delete here!
+        print('delete');
       },
       child: Card(
         elevation: 6,
