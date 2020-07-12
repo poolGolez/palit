@@ -23,6 +23,7 @@ class _OrderItemState extends State<OrderItem> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 4,
       child: Column(
         children: <Widget>[
           ListTile(
@@ -47,10 +48,12 @@ class _OrderItemState extends State<OrderItem> {
                   final product = e.key;
                   final quantity = e.value;
                   return Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 20.0,
+                    ),
                     child: Row(
                       children: <Widget>[
-                        SizedBox(width: 15),
                         Expanded(
                           flex: 2,
                           child: Text(product.title),
@@ -58,7 +61,7 @@ class _OrderItemState extends State<OrderItem> {
                         Expanded(
                           flex: 1,
                           child: Text(
-                            "$quantity",
+                            "${quantity}x",
                             textAlign: TextAlign.end,
                           ),
                         ),
