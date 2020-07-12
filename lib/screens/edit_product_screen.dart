@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../providers/product.dart';
+
 class EditProductScreen extends StatefulWidget {
   static const ROUTE_NAME = '/manage/products/edit';
 
@@ -11,6 +13,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _priceFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
   final _imageFocusNode = FocusNode();
+
+  final _form = GlobalKey<FormState>();
+  final _mutableProduct = MutableProduct();
 
   final _imageUrlController = TextEditingController(
       text: 'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg');
@@ -38,6 +43,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
     super.dispose();
   }
 
+  void _saveForm() {
+    _form.currentState.save();
+    print(_mutableProduct);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +55,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
         title: const Text('Edit Product'),
       ),
       body: Form(
+        key: _form,
         child: ListView(
           padding: const EdgeInsets.all(15.0),
           children: <Widget>[
@@ -53,6 +64,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               textInputAction: TextInputAction.next,
               onFieldSubmitted: (_) =>
                   FocusScope.of(context).requestFocus(_priceFocusNode),
+              onSaved: (value) => _mutableProduct.title = value,
             ),
             TextFormField(
               decoration: const InputDecoration(labelText: 'Price'),
@@ -61,6 +73,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               focusNode: _priceFocusNode,
               onFieldSubmitted: (_) =>
                   FocusScope.of(context).requestFocus(_descriptionFocusNode),
+              onSaved: (value) => _mutableProduct.price = double.parse(value),
             ),
             TextFormField(
               decoration: InputDecoration(labelText: 'Description'),
@@ -68,6 +81,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               focusNode: _descriptionFocusNode,
               onFieldSubmitted: (_) =>
                   FocusScope.of(context).requestFocus(_imageFocusNode),
+              onSaved: (value) => _mutableProduct.description = value,
             ),
             Container(
               margin: const EdgeInsets.only(top: 10.0),
@@ -94,14 +108,57 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       keyboardType: TextInputType.url,
                       controller: _imageUrlController,
                       focusNode: _imageFocusNode,
+                      onSaved: (value) => _mutableProduct.imageUrl = value,
                     ),
                   )
                 ],
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
+            RaisedButton(
+              onPressed: _saveForm,
+              child: Text(
+                'SAVE',
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+              color: Theme.of(context).primaryColor,
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+class MutableProduct {
+  String title;
+  double price;
+  String description;
+  String imageUrl;
+
+  MutableProduct({
+    this.title,
+    this.price,
+    this.description,
+    this.imageUrl,
+  });
+
+  static MutableProduct from(Product product) {
+    return MutableProduct(
+      title: product.title,
+      price: product.price,
+      description: product.description,
+      imageUrl: product.imageUrl,
+    );
+  }
+
+  @override
+  String toString() {
+    return "title: $title\n" +
+        "price: $price\n" +
+        "description: $description\n" +
+        "imageUrl: $imageUrl";
   }
 }
