@@ -32,11 +32,23 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeSingleItem(Product product) {
+    final cartItem = _items[product.id];
+    if (cartItem.quantity > 1) {
+      _items.update(
+          product.id,
+          (oldItem) =>
+              _CartItem(oldItem.product, quantity: oldItem.quantity - 1));
+    } else {
+      _items.remove(product.id);
+    }
+    notifyListeners();
+  }
+
   void clear() {
     _items = {};
     notifyListeners();
   }
-
 }
 
 class _CartItem {
