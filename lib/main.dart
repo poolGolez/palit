@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:palit/screens/orders_screen.dart';
 import 'package:provider/provider.dart';
 
 import './providers/cart.dart';
@@ -24,9 +25,10 @@ class PalitApplication extends StatelessWidget {
           accentColor: Colors.amberAccent,
           fontFamily: 'Lato',
         ),
-        home: new ProductOverviewScreen(),
         routes: {
+          ProductOverviewScreen.ROUTE_NAME: (ctx) => ProductOverviewScreen(),
           CartScreen.ROUTE_NAME: (ctx) => CartScreen(),
+          OrdersScreen.ROUTE_NAME: (ctx) => OrdersScreen(),
         },
       ),
     );

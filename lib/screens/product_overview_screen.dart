@@ -6,10 +6,13 @@ import '../providers/products.dart';
 import '../screens/cart_screen.dart';
 import '../widgets/badge.dart';
 import '../widgets/product_item.dart';
+import '../widgets/the_drawer.dart';
 
 enum FilterOptions { Favorites, ShowAll }
 
 class ProductOverviewScreen extends StatefulWidget {
+  static const ROUTE_NAME = '/';
+
   @override
   _ProductOverviewScreenState createState() => _ProductOverviewScreenState();
 }
@@ -75,35 +78,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView(
-            children: <Widget>[
-              ListTile(
-                leading: Icon(
-                  Icons.shop,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  'Shop',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.credit_card,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  'Orders',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      drawer: TheDrawer(),
       body: Container(
         height: double.infinity,
         width: double.infinity,
