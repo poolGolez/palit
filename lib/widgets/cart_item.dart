@@ -46,7 +46,7 @@ class CartItem extends StatelessWidget {
           title: Text(product.title),
           subtitle: Text("Extended: PHP ${extendedPrice.toStringAsFixed(2)}"),
           trailing: Text(
-            "${quantity} x",
+            "$quantity x",
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,

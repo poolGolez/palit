@@ -27,15 +27,6 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         ? productProvider.favorites
         : productProvider.products;
 
-    final sideDrawerNavigation = [
-      {
-        'name': 'Shop',
-      },
-      {
-        'name': 'Orders',
-      },
-    ];
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Palit Shop'),
