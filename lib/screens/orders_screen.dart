@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:palit/providers/orders.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/orders.dart';
+import '../widgets/order_item.dart';
 import '../widgets/the_drawer.dart';
 
 class OrdersScreen extends StatelessWidget {
@@ -17,23 +17,15 @@ class OrdersScreen extends StatelessWidget {
         title: Text('My Orders'),
       ),
       drawer: TheDrawer(),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        child: Expanded(
-          child: ListView.builder(
-            itemBuilder: (ctx, index) {
-              final order = orders.getAt(index);
-              return Card(
-                child: ListTile(
-                  title: Text('\$${order.amount}'),
-                  subtitle: Text(DateFormat('MMMM d, yyyy  hh:mm').format(order.dateTime)),
-                ),
-              );
-            },
-            itemCount: orders.length,
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (ctx, index) => OrderItem(orders.getAt(index)),
+              itemCount: orders.length,
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
