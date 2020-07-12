@@ -25,7 +25,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
     final productProvider = Provider.of<Products>(context);
     final products = (_filterOption == FilterOptions.Favorites)
         ? productProvider.favorites
-        : productProvider.products;
+        : productProvider.all;
 
     return Scaffold(
       appBar: AppBar(

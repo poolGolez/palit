@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import './product.dart';
 
 class Products with ChangeNotifier {
-  final _products = <Product>[
+  final _items = <Product>[
     Product(
       id: 'p1',
       title: 'Red Shirt',
@@ -38,16 +38,16 @@ class Products with ChangeNotifier {
     ),
   ];
 
-  List<Product> get products {
-    return [..._products];
+  List<Product> get all {
+    return [..._items];
   }
 
   List<Product> get favorites {
-    return products.where((element) => element.isFavorite).toList();
+    return all.where((element) => element.isFavorite).toList();
   }
 
   void addProduct(product) {
-    _products.add(product);
+    _items.add(product);
     notifyListeners();
   }
 }
