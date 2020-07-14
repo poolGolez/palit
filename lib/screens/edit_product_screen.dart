@@ -18,9 +18,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   final _form = GlobalKey<FormState>();
   final _mutableProduct = MutableProduct();
+  Product _product;
 
-  final _imageUrlController = TextEditingController(
-      text: 'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg');
+  final _imageUrlController = TextEditingController();
 
   @override
   void initState() {
@@ -58,6 +58,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    print('DID CHANGE DEPENDENCIES');
+    final productId = ModalRoute.of(context).settings.arguments as String;
+    final products = Provider.of<Products>(context);
+    _product = products.findById(productId);
+    _imageUrlController.text = _product.imageUrl;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -71,6 +80,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             TextFormField(
               decoration: const InputDecoration(labelText: 'Title'),
               textInputAction: TextInputAction.next,
+              initialValue: _product.title,
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Provide title of the product';
@@ -85,6 +95,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             TextFormField(
               decoration: const InputDecoration(labelText: 'Price'),
               textInputAction: TextInputAction.next,
+              initialValue: _product.price.toStringAsFixed(2),
               keyboardType: TextInputType.number,
               focusNode: _priceFocusNode,
               validator: (value) {
@@ -109,6 +120,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             TextFormField(
               decoration: InputDecoration(labelText: 'Description'),
               keyboardType: TextInputType.multiline,
+              initialValue: _product.description,
               focusNode: _descriptionFocusNode,
               validator: (value) {
                 if (value.isEmpty) {

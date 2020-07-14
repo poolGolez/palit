@@ -21,10 +21,8 @@ class UserProductItem extends StatelessWidget {
       ),
       secondaryBackground: Container(color: Colors.red),
       confirmDismiss: (direction) {
-        if (direction == DismissDirection.endToStart) {
-          return Future.value(true);
-        } else if (direction == DismissDirection.startToEnd) {
-          Navigator.of(context).pushNamed(EditProductScreen.ROUTE_NAME);
+        if (direction == DismissDirection.startToEnd) {
+          Navigator.of(context).pushNamed(EditProductScreen.ROUTE_NAME, arguments: product.id);
           return Future.value(false);
         }
         return Future.value(true);
