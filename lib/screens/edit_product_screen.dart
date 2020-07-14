@@ -17,7 +17,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _imageFocusNode = FocusNode();
 
   final _form = GlobalKey<FormState>();
-  final _mutableProduct = MutableProduct();
+  MutableProduct _mutableProduct;
   Product _product;
 
   final _imageUrlController = TextEditingController();
@@ -53,7 +53,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     _form.currentState.save();
     final product = _mutableProduct.toProduct();
     final products = Provider.of<Products>(context, listen: false);
-    products.addProduct(product);
+    products.update(product.id, product);
     Navigator.of(context).pop();
   }
 
@@ -63,6 +63,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     final productId = ModalRoute.of(context).settings.arguments as String;
     final products = Provider.of<Products>(context);
     _product = products.findById(productId);
+    _mutableProduct = MutableProduct.from(_product);
     _imageUrlController.text = _product.imageUrl;
   }
 
@@ -190,12 +191,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
 }
 
 class MutableProduct {
+  final String id;
   String title;
   double price;
   String description;
   String imageUrl;
 
   MutableProduct({
+    this.id,
     this.title,
     this.price,
     this.description,
@@ -204,7 +207,7 @@ class MutableProduct {
 
   Product toProduct() {
     return Product(
-        id: null,
+        id: id,
         title: title,
         description: description,
         price: price,
@@ -213,6 +216,7 @@ class MutableProduct {
 
   static MutableProduct from(Product product) {
     return MutableProduct(
+      id: product.id,
       title: product.title,
       price: product.price,
       description: product.description,

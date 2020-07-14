@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../providers/product.dart';
+import '../providers/products.dart';
 import '../screens/edit_product_screen.dart';
 
 class UserProductItem extends StatelessWidget {
@@ -22,14 +24,35 @@ class UserProductItem extends StatelessWidget {
       secondaryBackground: Container(color: Colors.red),
       confirmDismiss: (direction) {
         if (direction == DismissDirection.startToEnd) {
-          Navigator.of(context).pushNamed(EditProductScreen.ROUTE_NAME, arguments: product.id);
+          Navigator.of(context)
+              .pushNamed(EditProductScreen.ROUTE_NAME, arguments: product.id);
           return Future.value(false);
+        } else {
+          return showDialog(
+            context: context,
+            builder: (ctx) {
+              return AlertDialog(
+                content: Text('Are you sure you want to delete?'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Yes, I am sure'),
+                    onPressed: () => Navigator.of(ctx).pop(true),
+                  ),
+                  SizedBox(width: 10),
+                  RaisedButton(
+                    color: Theme.of(ctx).primaryColor,
+                    child: Text('No, just Kidding'),
+                    onPressed: () => Navigator.of(ctx).pop(false),
+                  )
+                ],
+              );
+            },
+          );
         }
-        return Future.value(true);
       },
       onDismissed: (_) {
-        //.. do delete here!
-        print('delete');
+        final products = Provider.of<Products>(context, listen: false);
+        products.delete(product);
       },
       child: Card(
         elevation: 6,
