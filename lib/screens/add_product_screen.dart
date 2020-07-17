@@ -15,6 +15,12 @@ class AddProductScreen extends StatelessWidget {
           Expanded(
             child: ProductForm(
               submitButtonText: 'Create new product',
+              submitAction: (product) {
+                print("TITLE: " + product.title);
+                print("DESCRIPTION: " + product.description);
+                print("PRICE: " + product.price.toString());
+                print("URL: " + product.imageUrl);
+              },
             ),
           ),
         ],
