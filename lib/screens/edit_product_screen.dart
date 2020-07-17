@@ -65,6 +65,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     _product = products.findById(productId);
     _mutableProduct = MutableProduct.from(_product);
     _imageUrlController.text = _product.imageUrl;
+    super.didChangeDependencies();
   }
 
   @override

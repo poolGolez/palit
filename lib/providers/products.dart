@@ -50,7 +50,7 @@ class Products with ChangeNotifier {
     return all.firstWhere((element) => element.id == id);
   }
 
-  Product update(String id, Product updatedProduct) {
+  void update(String id, Product updatedProduct) {
     final index = _items.indexWhere((element) => element.id == id);
     _items[index] = updatedProduct;
     notifyListeners();

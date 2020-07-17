@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:palit/providers/product.dart';
 
-class ProductForm extends StatelessWidget {
+class ProductForm extends StatefulWidget {
   final String submitButtonText;
   final Function(Product product) submitAction;
 
@@ -12,27 +12,58 @@ class ProductForm extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    var titleController = TextEditingController();
-    var priceController = TextEditingController();
-    var descriptionController = TextEditingController();
-    var imageUrlController = TextEditingController();
+  _ProductFormState createState() => _ProductFormState();
+}
 
+class _ProductFormState extends State<ProductForm> {
+  var titleController = TextEditingController();
+  var priceController = TextEditingController();
+  var descriptionController = TextEditingController();
+  var imageUrlController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
+  void saveForm() {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+
+    // final product = Product(
+    //   id: null,
+    //   title: titleController.text,
+    //   description: descriptionController.text,
+    //   imageUrl: imageUrlController.text,
+    //   price: double.parse(priceController.text),
+    // );
+
+    // widget.submitAction(product);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     var priceFocusNode = FocusNode();
     var descriptionFocusNode = FocusNode();
     var imageUrlFocusNode = FocusNode();
 
     return Form(
+      key: _formKey,
       child: ListView(
         padding: const EdgeInsets.all(15.0),
         children: <Widget>[
           TextFormField(
-          autofocus: true,
+            autofocus: true,
             decoration: InputDecoration(labelText: 'Title'),
             textInputAction: TextInputAction.next,
             controller: titleController,
             onFieldSubmitted: (_) =>
                 FocusScope.of(context).requestFocus(priceFocusNode),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Title is required';
+              }
+
+              return null;
+            },
           ),
           TextFormField(
             decoration: InputDecoration(labelText: 'Price'),
@@ -42,6 +73,22 @@ class ProductForm extends StatelessWidget {
             focusNode: priceFocusNode,
             onFieldSubmitted: (_) =>
                 FocusScope.of(context).requestFocus(descriptionFocusNode),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Price is required';
+              }
+
+              final parsedValue = double.tryParse(value);
+              if (parsedValue == null) {
+                return 'Invalid price';
+              }
+
+              if (parsedValue < 0) {
+                return 'Price should be greater than zero';
+              }
+
+              return null;
+            },
           ),
           TextFormField(
             decoration: InputDecoration(labelText: 'Description'),
@@ -56,26 +103,25 @@ class ProductForm extends StatelessWidget {
             controller: imageUrlController,
             textInputAction: TextInputAction.done,
             focusNode: imageUrlFocusNode,
-            onFieldSubmitted: (_) { },
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Image URL is required';
+              }
+
+              return null;
+            },
           ),
           SizedBox(
             height: 20,
           ),
           RaisedButton(
             child: Text(
-              submitButtonText,
+              widget.submitButtonText,
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
             color: Theme.of(context).primaryColor,
             onPressed: () {
-              final product = Product(
-                id: null,
-                title: titleController.text,
-                description: descriptionController.text,
-                imageUrl: imageUrlController.text,
-                price: double.parse(priceController.text),
-              );
-              submitAction(product);
+              saveForm();
             },
           )
         ],
