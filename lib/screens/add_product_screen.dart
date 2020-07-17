@@ -14,14 +14,7 @@ class AddProductScreen extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: ProductForm(
-              submitButton: RaisedButton(
-                child: Text(
-                  'Create new product',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-                color: Theme.of(context).primaryColor,
-                onPressed: () {},
-              ),
+              submitButtonText: 'Create new product',
             ),
           ),
         ],
