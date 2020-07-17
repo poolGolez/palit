@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:palit/providers/products.dart';
 import 'package:palit/widgets/product_form.dart';
+import 'package:provider/provider.dart';
 
 class AddProductScreen extends StatelessWidget {
   static const ROUTE_NAME = '/products/add';
@@ -16,10 +18,9 @@ class AddProductScreen extends StatelessWidget {
             child: ProductForm(
               submitButtonText: 'Create new product',
               submitAction: (product) {
-                print("TITLE: " + product.title);
-                print("DESCRIPTION: " + product.description);
-                print("PRICE: " + product.price.toString());
-                print("URL: " + product.imageUrl);
+                final products = Provider.of<Products>(context, listen: false);
+                products.addProduct(product);
+                Navigator.of(context).pop();
               },
             ),
           ),

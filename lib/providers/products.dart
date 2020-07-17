@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 
 import './product.dart';
 
@@ -57,6 +60,17 @@ class Products with ChangeNotifier {
   }
 
   void addProduct(product) {
+    final url = 'https://palit-cbb04.firebaseio.com/products.json';
+    http
+        .post(url,
+            body: json.encode({
+              'title': product.title,
+              'description': product.description,
+              'price': product.price,
+              'imageUrl': product.imageUrl,
+              'favorite': product.isFavorite,
+            }));
+
     _items.add(product);
     notifyListeners();
   }

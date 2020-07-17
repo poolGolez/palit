@@ -28,15 +28,16 @@ class _ProductFormState extends State<ProductForm> {
       return;
     }
 
-    // final product = Product(
-    //   id: null,
-    //   title: titleController.text,
-    //   description: descriptionController.text,
-    //   imageUrl: imageUrlController.text,
-    //   price: double.parse(priceController.text),
-    // );
+    _formKey.currentState.save();
+    final product = Product(
+      id: null,
+      title: titleController.text,
+      description: descriptionController.text,
+      imageUrl: imageUrlController.text,
+      price: double.parse(priceController.text),
+    );
 
-    // widget.submitAction(product);
+    widget.submitAction(product);
   }
 
   @override
