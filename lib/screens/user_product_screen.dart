@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:palit/widgets/user_product_item.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/products.dart';
+import '../screens/add_product_screen.dart';
 import '../widgets/the_drawer.dart';
+import '../widgets/user_product_item.dart';
 
 class UserProductScreen extends StatelessWidget {
   static const ROUTE_NAME = '/manage/products';
@@ -15,6 +16,17 @@ class UserProductScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Manage Products'),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(AddProductScreen.ROUTE_NAME);
+            },
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
       drawer: TheDrawer(),
       body: ListView.builder(
