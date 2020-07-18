@@ -22,7 +22,7 @@ class Products with ChangeNotifier {
     return all.firstWhere((element) => element.id == id);
   }
 
-  void initialize() async {
+  Future<void> initialize() async {
     final response = await http.get(BASE_URL);
     Map<String, dynamic> productsJson = json.decode(response.body);
 

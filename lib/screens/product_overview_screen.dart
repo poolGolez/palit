@@ -22,12 +22,20 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
 
   Products productProvider;
   bool _isInit = false;
+  bool _isLoading = false;
 
   @override
   void didChangeDependencies() {
     if (!_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
       productProvider = Provider.of<Products>(context);
-      productProvider.initialize();
+      productProvider.initialize().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
       _isInit = true;
     }
     super.didChangeDependencies();
@@ -82,24 +90,26 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         ],
       ),
       drawer: TheDrawer(),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        padding: const EdgeInsets.all(10),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 3 / 2,
-          ),
-          itemCount: products.length,
-          itemBuilder: (_, index) => ChangeNotifierProvider.value(
-            value: products[index],
-            child: ProductItem(),
-          ),
-        ),
-      ),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Container(
+              height: double.infinity,
+              width: double.infinity,
+              padding: const EdgeInsets.all(10),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 3 / 2,
+                ),
+                itemCount: products.length,
+                itemBuilder: (_, index) => ChangeNotifierProvider.value(
+                  value: products[index],
+                  child: ProductItem(),
+                ),
+              ),
+            ),
     );
   }
 }
