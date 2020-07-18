@@ -8,7 +8,7 @@ import './product.dart';
 class Products with ChangeNotifier {
   List<Product> _items = <Product>[];
 
-  static const BASE_URL = 'https://palit-cbb04.firebaseio.com/products.json';
+  static const BASE_URL = 'https://palit-cbb04.firebaseio.com/products';
 
   List<Product> get all {
     return [..._items];
@@ -23,7 +23,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> initialize() async {
-    final response = await http.get(BASE_URL);
+    final response = await http.get("$BASE_URL.json");
     Map<String, dynamic> productsJson = json.decode(response.body);
 
     _items = productsJson.entries.map((entry) {
@@ -39,10 +39,20 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  void update(String id, Product updatedProduct) {
+  Future<Product> update(String id, Product product) async {
+    final url = "$BASE_URL/$id.json";
+    print(url);
+    var requestBody = json.encode({
+      'title': product.title,
+      'description': product.description,
+      'price': product.price,
+      'image_url': product.imageUrl,
+    });
+    await http.patch(url, body: requestBody);
     final index = _items.indexWhere((element) => element.id == id);
-    _items[index] = updatedProduct;
+    _items[index] = product;
     notifyListeners();
+    return product;
   }
 
   Future<void> addProduct(Product product) async {

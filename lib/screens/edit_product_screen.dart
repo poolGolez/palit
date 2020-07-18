@@ -19,6 +19,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _form = GlobalKey<FormState>();
   MutableProduct _mutableProduct;
   Product _product;
+  var _isInit = false;
 
   final _imageUrlController = TextEditingController();
 
@@ -45,7 +46,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     super.dispose();
   }
 
-  void _saveForm() {
+  void _saveForm() async {
     if (!_form.currentState.validate()) {
       return;
     }
@@ -53,18 +54,20 @@ class _EditProductScreenState extends State<EditProductScreen> {
     _form.currentState.save();
     final product = _mutableProduct.toProduct();
     final products = Provider.of<Products>(context, listen: false);
-    products.update(product.id, product);
+    await products.update(product.id, product);
     Navigator.of(context).pop();
   }
 
   @override
   void didChangeDependencies() {
-    print('DID CHANGE DEPENDENCIES');
-    final productId = ModalRoute.of(context).settings.arguments as String;
-    final products = Provider.of<Products>(context);
-    _product = products.findById(productId);
-    _mutableProduct = MutableProduct.from(_product);
-    _imageUrlController.text = _product.imageUrl;
+    if(!_isInit) {
+      final productId = ModalRoute.of(context).settings.arguments as String;
+      final products = Provider.of<Products>(context);
+      _product = products.findById(productId);
+      _mutableProduct = MutableProduct.from(_product);
+      _imageUrlController.text = _product.imageUrl;
+      _isInit = true;
+    }
     super.didChangeDependencies();
   }
 
