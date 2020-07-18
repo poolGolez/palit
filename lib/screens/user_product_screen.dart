@@ -29,9 +29,14 @@ class UserProductScreen extends StatelessWidget {
         ],
       ),
       drawer: TheDrawer(),
-      body: ListView.builder(
-        itemBuilder: (ctx, i) => UserProductItem(products[i]),
-        itemCount: products.length,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await Provider.of<Products>(context, listen: false).initialize();
+        },
+        child: ListView.builder(
+          itemBuilder: (ctx, i) => UserProductItem(products[i]),
+          itemCount: products.length,
+        ),
       ),
     );
   }
