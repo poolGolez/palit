@@ -36,18 +36,37 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 Expanded(
                   child: ProductForm(
                     submitButtonText: 'Create new product',
-                    submitAction: (product) {
+                    submitAction: (product) async {
                       setState(() {
                         _isLoading = true;
                       });
+
                       final products =
                           Provider.of<Products>(context, listen: false);
-                      return products.addProduct(product).then((_) {
-                        Navigator.of(context).pop();
+                      try {
+                        await products.addProduct(product);
+                      } catch (error) {
+                        await showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: Text('Something went wrong'),
+                            content: Text(error.toString()),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text('Ok'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          ),
+                        );
+                      } finally {
                         setState(() {
                           _isLoading = false;
                         });
-                      });
+                        Navigator.of(context).pop();
+                      }
                     },
                   ),
                 ),

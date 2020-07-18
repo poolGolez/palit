@@ -59,21 +59,33 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addProduct(product) {
+  Future<void> addProduct(Product product) async {
     final url = 'https://palit-cbb04.firebaseio.com/products.json';
-    return http
-        .post(url,
-            body: json.encode({
-              'title': product.title,
-              'description': product.description,
-              'price': product.price,
-              'imageUrl': product.imageUrl,
-              'favorite': product.isFavorite,
-            }))
-        .then((value) {
-      _items.add(product);
-      notifyListeners();
+    var requestBody = json.encode({
+      'title': product.title,
+      'description': product.description,
+      'price': product.price,
+      'image_url': product.imageUrl,
+      'is_favorite': product.isFavorite,
     });
+
+    try {
+      final response = await http.post(url, body: requestBody);
+      final savedProduct = Product(
+        id: json.decode(response.body)['name'],
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        isFavorite: product.isFavorite,
+      );
+      _items.add(savedProduct);
+      notifyListeners();
+      return savedProduct;
+    } catch (error) {
+      print('caught error: ' + error.toString());
+      throw error;
+    }
   }
 
   void delete(Product product) {
