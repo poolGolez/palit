@@ -59,9 +59,9 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  void addProduct(product) {
+  Future<void> addProduct(product) {
     final url = 'https://palit-cbb04.firebaseio.com/products.json';
-    http
+    return http
         .post(url,
             body: json.encode({
               'title': product.title,
@@ -69,10 +69,11 @@ class Products with ChangeNotifier {
               'price': product.price,
               'imageUrl': product.imageUrl,
               'favorite': product.isFavorite,
-            }));
-
-    _items.add(product);
-    notifyListeners();
+            }))
+        .then((value) {
+      _items.add(product);
+      notifyListeners();
+    });
   }
 
   void delete(Product product) {
