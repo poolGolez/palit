@@ -20,9 +20,21 @@ class ProductOverviewScreen extends StatefulWidget {
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   FilterOptions _filterOption = FilterOptions.ShowAll;
 
+  Products productProvider;
+  bool _isInit = false;
+
+  @override
+  void didChangeDependencies() {
+    if (!_isInit) {
+      productProvider = Provider.of<Products>(context);
+      productProvider.initialize();
+      _isInit = true;
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final productProvider = Provider.of<Products>(context);
     final products = (_filterOption == FilterOptions.Favorites)
         ? productProvider.favorites
         : productProvider.all;
