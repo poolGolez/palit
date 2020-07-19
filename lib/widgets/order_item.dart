@@ -27,7 +27,7 @@ class _OrderItemState extends State<OrderItem> {
       child: Column(
         children: <Widget>[
           ListTile(
-            title: Text('\$${widget.order.amount}'),
+            title: Text('\$${widget.order.amount.toStringAsFixed(2)}'),
             subtitle: Text(DateFormat('MMMM d, yyyy  hh:mm')
                 .format(widget.order.dateTime)),
             trailing: IconButton(
@@ -44,9 +44,7 @@ class _OrderItemState extends State<OrderItem> {
               height: (widget.order.orderItems.length * 30.0) + 10,
               color: Colors.grey[300],
               child: ListView(
-                children: widget.order.orderItems.entries.map((e) {
-                  final product = e.key;
-                  final quantity = e.value;
+                children: widget.order.orderItems.map((OrderDetail orderItem) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 10.0,
@@ -56,19 +54,19 @@ class _OrderItemState extends State<OrderItem> {
                       children: <Widget>[
                         Expanded(
                           flex: 2,
-                          child: Text(product.title),
+                          child: Text(orderItem.product.title),
                         ),
                         Expanded(
                           flex: 1,
                           child: Text(
-                            "${quantity}x",
+                            "${orderItem.quantity}x",
                             textAlign: TextAlign.end,
                           ),
                         ),
                         Expanded(
                           flex: 1,
                           child: Text(
-                            product.price.toStringAsFixed(2),
+                            orderItem.price.toStringAsFixed(2),
                             textAlign: TextAlign.end,
                           ),
                         ),
