@@ -7,8 +7,8 @@ import './providers/products.dart';
 import './screens/add_product_screen.dart';
 import './screens/cart_screen.dart';
 import './screens/edit_product_screen.dart';
+import './screens/login_screen.dart';
 import './screens/orders_screen.dart';
-import './screens/product_overview_screen.dart';
 import './screens/user_product_screen.dart';
 
 void main() => runApp(PalitApplication());
@@ -28,8 +28,9 @@ class PalitApplication extends StatelessWidget {
           accentColor: Colors.amberAccent,
           fontFamily: 'Lato',
         ),
+        home: LoginScreen(),
         routes: {
-          ProductOverviewScreen.ROUTE_NAME: (ctx) => ProductOverviewScreen(),
+          // ProductOverviewScreen.ROUTE_NAME: (ctx) => ProductOverviewScreen(),
           CartScreen.ROUTE_NAME: (ctx) => CartScreen(),
           OrdersScreen.ROUTE_NAME: (ctx) => OrdersScreen(),
           UserProductScreen.ROUTE_NAME: (ctx) => UserProductScreen(),

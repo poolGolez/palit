@@ -25,6 +25,7 @@ class Products with ChangeNotifier {
   Future<void> initialize() async {
     final response = await http.get("$BASE_URL.json");
     Map<String, dynamic> productsJson = json.decode(response.body);
+    print(productsJson);
 
     _items = productsJson.entries.map((entry) {
       Map<String, dynamic> productData = entry.value;
