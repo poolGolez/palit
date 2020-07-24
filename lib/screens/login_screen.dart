@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:palit/providers/auth.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   static const ROUTE_NAME = '/login';
@@ -40,8 +42,8 @@ class LoginScreen extends StatelessWidget {
                     child: Form(
                       child: Column(
                         children: <Widget>[
-                          FittedBox(
-                            fit: BoxFit.fitHeight,
+                          Container(
+                            height: 175,
                             child: Image.asset('assets/images/logo.jpeg'),
                           ),
                           TextFormField(
@@ -57,7 +59,22 @@ class LoginScreen extends StatelessWidget {
                             ),
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.done,
-                          )
+                          ),
+                          SizedBox(height: 10),
+                          RaisedButton(
+                            child: Text(
+                              'Sign in',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                            color: Theme.of(context).primaryColor,
+                            onPressed: () {
+                              Provider.of<Auth>(context, listen: false)
+                                  .login('', '');
+                            },
+                          ),
                         ],
                       ),
                     ),

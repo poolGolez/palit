@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import './providers/auth.dart';
 import './providers/cart.dart';
 import './providers/orders.dart';
 import './providers/products.dart';
@@ -18,6 +19,7 @@ class PalitApplication extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => Auth()),
         ChangeNotifierProvider(create: (_) => Products()),
         ChangeNotifierProvider(create: (_) => Cart()),
         ChangeNotifierProvider(create: (_) => Orders()),
