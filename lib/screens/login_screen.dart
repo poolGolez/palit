@@ -13,12 +13,17 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  var _formKey = GlobalKey<FormState>();
   var _emailTextController = TextEditingController();
   var _passwordTextController = TextEditingController();
 
   var _loggingIn = false;
 
   Future<void> signIn(BuildContext context) async {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+
     setState(() {
       _loggingIn = true;
     });
@@ -63,10 +68,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       horizontal: 25,
                     ),
                     child: Form(
+                      key: _formKey,
                       child: Column(
                         children: <Widget>[
                           Container(
-                            height: 175,
+                            height: 150,
                             child: Image.asset('assets/images/logo.jpeg'),
                           ),
                           TextFormField(
@@ -75,8 +81,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
                             controller: _emailTextController,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Enter email address';
+                              }
+                              return null;
+                            },
                           ),
-                          TextField(
+                          TextFormField(
                             obscureText: true,
                             decoration: InputDecoration(
                               labelText: 'Password',
@@ -84,6 +96,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.done,
                             controller: _passwordTextController,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Enter passowrd';
+                              }
+                              return null;
+                            },
                           ),
                           SizedBox(height: 10),
                           _loggingIn
