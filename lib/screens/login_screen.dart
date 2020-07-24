@@ -5,11 +5,29 @@ import 'package:flutter/material.dart';
 import 'package:palit/providers/auth.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const ROUTE_NAME = '/login';
 
   @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+
+  var _emailTextController = TextEditingController();
+  var _passwordTextController = TextEditingController();
+
+  void signIn(BuildContext context) {
+    final email = _emailTextController.text;
+    final password = _passwordTextController.text;
+    Provider.of<Auth>(context, listen: false).login(email, password);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _emailTextController.text = 'loop.edward@gmail.com';
+    _passwordTextController.text = 'palit22';
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -51,6 +69,7 @@ class LoginScreen extends StatelessWidget {
                                 InputDecoration(labelText: 'Email address'),
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
+                            controller: _emailTextController,
                           ),
                           TextField(
                             obscureText: true,
@@ -59,6 +78,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.done,
+                            controller: _passwordTextController,
                           ),
                           SizedBox(height: 10),
                           RaisedButton(
@@ -70,10 +90,7 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                             color: Theme.of(context).primaryColor,
-                            onPressed: () {
-                              Provider.of<Auth>(context, listen: false)
-                                  .login('', '');
-                            },
+                            onPressed: () => signIn(context),
                           ),
                         ],
                       ),
