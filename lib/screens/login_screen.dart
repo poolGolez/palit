@@ -13,21 +13,26 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   var _emailTextController = TextEditingController();
   var _passwordTextController = TextEditingController();
 
-  void signIn(BuildContext context) {
+  var _loggingIn = false;
+
+  Future<void> signIn(BuildContext context) async {
+    setState(() {
+      _loggingIn = true;
+    });
     final email = _emailTextController.text;
     final password = _passwordTextController.text;
-    Provider.of<Auth>(context, listen: false).login(email, password);
+
+    await Provider.of<Auth>(context, listen: false).login(email, password);
+    setState(() {
+      _loggingIn = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    _emailTextController.text = 'loop.edward@gmail.com';
-    _passwordTextController.text = 'palit22';
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -81,17 +86,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             controller: _passwordTextController,
                           ),
                           SizedBox(height: 10),
-                          RaisedButton(
-                            child: Text(
-                              'Sign in',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                            color: Theme.of(context).primaryColor,
-                            onPressed: () => signIn(context),
-                          ),
+                          _loggingIn
+                              ? CircularProgressIndicator()
+                              : RaisedButton(
+                                  child: Text(
+                                    'Sign in',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  color: Theme.of(context).primaryColor,
+                                  onPressed: () => signIn(context),
+                                ),
                         ],
                       ),
                     ),
