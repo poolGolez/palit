@@ -33,4 +33,11 @@ class Auth with ChangeNotifier {
     _expirationDate = DateTime.now().add(duration);
     notifyListeners();
   }
+
+  void logout() {
+    _token = null;
+    userId = null;
+    _expirationDate = null;
+    notifyListeners();
+  }
 }
