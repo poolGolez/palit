@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:palit/screens/product_overview_screen.dart';
 import 'package:provider/provider.dart';
 
 import './providers/auth.dart';
@@ -30,9 +31,14 @@ class PalitApplication extends StatelessWidget {
           accentColor: Colors.amberAccent,
           fontFamily: 'Lato',
         ),
-        home: LoginScreen(),
+        home: Consumer<Auth>(
+          builder: (ctx, authProvider, _) {
+            return authProvider.isAuthenticated
+                ? ProductOverviewScreen()
+                : LoginScreen();
+          },
+        ),
         routes: {
-          // ProductOverviewScreen.ROUTE_NAME: (ctx) => ProductOverviewScreen(),
           CartScreen.ROUTE_NAME: (ctx) => CartScreen(),
           OrdersScreen.ROUTE_NAME: (ctx) => OrdersScreen(),
           UserProductScreen.ROUTE_NAME: (ctx) => UserProductScreen(),
