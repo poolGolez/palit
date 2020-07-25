@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var _passwordFocusNode = FocusNode();
 
   var _loggingIn = false;
-  var _errorMessage = null;
+  var _errorMessage;
 
   Future<void> signIn(BuildContext context) async {
     _errorMessage = null;

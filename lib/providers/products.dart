@@ -6,9 +6,12 @@ import 'package:http/http.dart' as http;
 import './product.dart';
 
 class Products with ChangeNotifier {
-  List<Product> _items = <Product>[];
+  final String authToken;
+  List<Product> _items;
 
   static const BASE_URL = 'https://palit-cbb04.firebaseio.com/products';
+
+  Products(this.authToken, this._items);
 
   List<Product> get all {
     return [..._items];
@@ -23,9 +26,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> initialize() async {
-    final response = await http.get("$BASE_URL.json");
+    final response = await http.get("$BASE_URL.json?auth=$authToken");
     Map<String, dynamic> productsJson = json.decode(response.body);
-    print(productsJson);
 
     _items = productsJson.entries.map((entry) {
       Map<String, dynamic> productData = entry.value;

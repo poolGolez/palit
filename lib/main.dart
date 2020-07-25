@@ -21,7 +21,12 @@ class PalitApplication extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Auth()),
-        ChangeNotifierProvider(create: (_) => Products()),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          create: (context) => Products(null, []),
+          update: (ctx, auth, previousProducts) {
+            return Products(auth.token, previousProducts.all);
+          },
+        ),
         ChangeNotifierProvider(create: (_) => Cart()),
         ChangeNotifierProvider(create: (_) => Orders()),
       ],

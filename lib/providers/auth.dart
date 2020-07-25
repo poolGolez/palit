@@ -12,6 +12,7 @@ class Auth with ChangeNotifier {
   static const API_KEY = 'AIzaSyBRwMrJYuKZlWmlnRzXNFAm4hLsF0O8hGI';
 
   bool get isAuthenticated => _token != null && _expirationDate.isAfter(DateTime.now());
+  String get token => _token;
 
   Future<void> login(String email, String password) async {
     final url =
