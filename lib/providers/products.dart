@@ -82,7 +82,6 @@ class Products with ChangeNotifier {
       notifyListeners();
       return savedProduct;
     } catch (error) {
-      print('caught error: ' + error.toString());
       throw error;
     }
   }

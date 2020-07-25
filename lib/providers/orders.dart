@@ -8,19 +8,26 @@ import './product.dart';
 import 'cart.dart';
 
 class Orders with ChangeNotifier {
-  List<Order> _orders = [];
+  final String authToken;
+  List<Order> items;
 
-  int get length => _orders.length;
+  Orders(this.authToken, this.items);
 
-  Order getAt(index) => _orders[index];
+  int get length => items.length;
+
+  Order getAt(index) => items[index];
 
   static const BASE_URL = 'https://palit-cbb04.firebaseio.com/orders';
 
   Future<void> initialize() async {
-    final response = await http.get("$BASE_URL.json");
+    final response = await http.get("$BASE_URL.json?auth=$authToken");
     Map<String, dynamic> ordersJson = json.decode(response.body);
+    if(ordersJson == null) {
+      items = [];
+      return;
+    }
 
-    _orders = ordersJson.entries.map((entry) {
+    items = ordersJson.entries.map((entry) {
       final orderId = entry.key;
       final order = entry.value;
 
@@ -64,9 +71,10 @@ class Orders with ChangeNotifier {
     );
 
     var requestBody = _createRequestBody(order);
-    await http.post("$BASE_URL.json", body: requestBody);
+    var url = "$BASE_URL.json?auth=$authToken";
+    await http.post(url, body: requestBody);
 
-    _orders.add(order);
+    items.add(order);
     notifyListeners();
   }
 

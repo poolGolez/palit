@@ -27,10 +27,6 @@ class Auth with ChangeNotifier {
       throw HttpClientException(responseBody['error']['message']);
     }
 
-    // print("TOKEN: " + responseBody['idToken']);
-    // print("USER ID: " + responseBody['localId']);
-    // print("EXPIRATION: " + responseBody['expiresIn']);
-
     _token = responseBody['idToken'];
     userId = responseBody['localId'];
     var duration = Duration(seconds: int.parse(responseBody['expiresIn']));
