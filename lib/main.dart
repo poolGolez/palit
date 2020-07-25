@@ -28,9 +28,9 @@ class PalitApplication extends StatelessWidget {
         ),
         ChangeNotifierProvider(create: (_) => Cart()),
         ChangeNotifierProxyProvider<Auth, Orders>(
-          create: (_) => Orders(null, []),
+          create: (_) => Orders(null, null, []),
           update: (ctx, auth, previousOrders) =>
-              Orders(auth.token, previousOrders.items),
+              Orders(auth.token, auth.userId, previousOrders.items),
         ),
       ],
       child: MaterialApp(
