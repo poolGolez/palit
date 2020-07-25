@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -8,10 +9,12 @@ class Auth with ChangeNotifier {
   String _token;
   String userId;
   DateTime _expirationDate;
+  Timer _logoutTimer;
 
   static const API_KEY = 'AIzaSyBRwMrJYuKZlWmlnRzXNFAm4hLsF0O8hGI';
 
-  bool get isAuthenticated => _token != null && _expirationDate.isAfter(DateTime.now());
+  bool get isAuthenticated =>
+      _token != null && _expirationDate.isAfter(DateTime.now());
   String get token => _token;
 
   Future<void> login(String email, String password) async {
@@ -31,6 +34,7 @@ class Auth with ChangeNotifier {
     userId = responseBody['localId'];
     var duration = Duration(seconds: int.parse(responseBody['expiresIn']));
     _expirationDate = DateTime.now().add(duration);
+    setAutoLogout(duration);
     notifyListeners();
   }
 
@@ -38,6 +42,21 @@ class Auth with ChangeNotifier {
     _token = null;
     userId = null;
     _expirationDate = null;
+
+    if (_logoutTimer != null) {
+      _logoutTimer.cancel();
+      _logoutTimer = null;
+    }
+    print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+    print("LOG OUT!!!");
+    print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
     notifyListeners();
+  }
+
+  void setAutoLogout(Duration duration) {
+    if (_logoutTimer != null) {
+      _logoutTimer.cancel();
+    }
+    _logoutTimer = Timer(duration, logout);
   }
 }
